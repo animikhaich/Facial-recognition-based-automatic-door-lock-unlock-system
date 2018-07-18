@@ -22,7 +22,7 @@ def echo(bot, update):
 
 def main():
     # Create the Updater and pass it your bot's token.
-    updater = Updater('629898347:AAG4beXS5T7KwlLfbTdtnSgAzbIUec55-ik')
+    updater = Updater('API_KEY')
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
