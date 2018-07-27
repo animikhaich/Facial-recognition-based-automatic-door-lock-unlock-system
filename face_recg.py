@@ -2,7 +2,7 @@ import face_recognition
 import cv2
 import way2sms
 
-q = way2sms.Sms('9611933016', '2671996qw')
+q = way2sms.Sms('USERNAME', 'PASSWORD')
 
 
 def capture_picture():
@@ -83,9 +83,9 @@ def capture_picture():
     boolean = any(boolean_list)
 
     if boolean:
-        q.send('9611933016', 'The following guests have been allowed inside: ' + ' '.join(set(face_names)))
+        q.send('ADMIN_NUMBER', 'The following guests have been allowed inside: ' + ' '.join(set(face_names)))
     else:
-        q.send('9611933016', 'Unknown person wants to enter. Please Enquire telegram for further details')
+        q.send('ADMIN_NUMBER', 'Unknown person wants to enter. Please Enquire telegram for further details')
 
     # Release handle to the webcam
     video_capture.release()
