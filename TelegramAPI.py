@@ -1,10 +1,5 @@
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
-
-context = None
-
-
-# Define a few command handlers. These usually take the two arguments bot and
-# update. Error handlers also receive the raised TelegramError object in error.
+import serial, time
 
 help_text = """
 Welcome to your DoorBot. I automatically decide who goes into your house for you, with your permission of course :)
@@ -14,12 +9,16 @@ Let me introduce you to the commands:
 /help: That's me! At your service! 
 /photo: Send the most recent picture of the guest in the Database
 /all_photo: Send all the pictures of the guest in the Database
+/open_door: Open the door at your designated house and let the guests in
 """
 
 
-def start(bot, update):
-    print('Received /start command')
-    update.message.reply_text('Hi!')
+def arduino_open_door():
+    print("Opening Door")
+    ser = serial.Serial(port='COM3', baudrate=9600)
+    time.sleep(2)
+    ser.write('1'.encode())
+    ser.close()
 
 
 def help(bot, update):
@@ -27,11 +26,12 @@ def help(bot, update):
 
 
 def echo(bot, update):
-    print(update.message.text)
-    if update.message.text.lower() == "open door" or update.message.text.lower() == "open it":
-        update.message.reply_text("Door Opened")
-    else:
-        update.message.reply_text("Door stays closed")
+    update.message.reply_text('Hi! I am your DoorBot. Please go to /help for further details')
+
+
+def open_door(bot, update):
+    arduino_open_door()
+    update.message.reply_text("The door has been opened")
 
 
 def send_most_recent_pic(bot, update):
@@ -55,7 +55,7 @@ def send_all_pics(bot, update):
 
 def main():
     # Create the Updater and pass it your bot's token.
-    updater = Updater('API_TOKEN')
+    updater = Updater('629898347:AAG4beXS5T7KwlLfbTdtnSgAzbIUec55-ik')
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -64,6 +64,7 @@ def main():
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("photo", send_most_recent_pic))
     dp.add_handler(CommandHandler("all_photo", send_all_pics))
+    dp.add_handler(CommandHandler("open_door", open_door))
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
