@@ -55,7 +55,7 @@ def send_all_pics(bot, update):
 
 def main():
     # Create the Updater and pass it your bot's token.
-    updater = Updater('629898347:AAG4beXS5T7KwlLfbTdtnSgAzbIUec55-ik')
+    updater = Updater('TOKEN')
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
