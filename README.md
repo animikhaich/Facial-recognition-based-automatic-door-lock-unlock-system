@@ -21,11 +21,12 @@ Visit: https://www.python.org/downloads/ and download the version suitable for y
 This module is tough to install as installing dlib, which is a dependency for this module is quite challenging.
 Linux users may have some easy in installation as they can use pip to install them directly. 
 But windows users are recommended to go through the following tutorial for the installation process.
+
 https://github.com/ageitgey/face_recognition/issues/175#issue-257710508
 
 Other useful links are listed below:
-https://pypi.org/project/dlib/
-https://pypi.org/project/face_recognition/
+  1. https://pypi.org/project/dlib/
+  2. https://pypi.org/project/face_recognition/
   
 ## Installation for Telegram API
 Open Command Prompt (Windows) or Terminal (Linux) and type in the following command:
