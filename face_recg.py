@@ -4,7 +4,7 @@ import way2sms
 import TelegramAPI
 import sqlite3 as sql
 
-q = way2sms.Sms('9611933016', '2671996qw')
+q = way2sms.Sms('PHONE_NUMBER', 'PASSWORD')
 
 
 # Get a reference to webcam #0
@@ -97,10 +97,10 @@ if len(face_names) < 1:
     boolean = False
 
 if boolean:
-    # q.send('9611933016', 'The following guests have been allowed inside: ' + ' '.join(set(face_names)))
+    q.send('ADMIN_PHONE_NUMBER', 'The following guests have been allowed inside: ' + ' '.join(set(face_names)))
     TelegramAPI.arduino_open_door()
 else:
-    # q.send('9611933016', 'Unknown person wants to enter. Please Enquire telegram for further details')
+    q.send('ADMIN_PHONE_NUMBER', 'Unknown person wants to enter. Please Enquire telegram for further details')
     pass
 
 # Release handle to the webcam
