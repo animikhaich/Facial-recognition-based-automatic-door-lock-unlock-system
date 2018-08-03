@@ -1,5 +1,9 @@
 # Python-Google-Translate
 
+## Introduction
+
+This project aims at automating the locking and unlocking of the main door of the house. Camera installed at the main door is used to click 5 consecutive photos of the person standing in front of the door as he/she presses a button present on the main door. The images thus captured, is processed by the Python Facial Recognition software, which then detects any known faces in the picture and unlocks the door for the people whose faces are identified successfully. However, if there are no known faces in the picture taken, then the picture is forwarded to the owner through Telegram Bot. The owner then may choose to let the unknown guests in through a simple telegram command, which sends a high signal to the arduino which  opens the door. If the owner chooses to keep the door closed, then he does not reply to the bot which keeps the door locked. If the owner himself is standing in front of the door, his image is identified by face_recognition library, which signals the arduino to open the door. Also the owner can decide whether the  identified person has the access authority to take other people inside with him or not.
+
 ## Dependencies:
   1. Python 3
   2. dlib (Required to install face_recognition)
