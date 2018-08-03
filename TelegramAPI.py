@@ -13,6 +13,7 @@ Let me introduce you to the commands:
 """
 
 
+# Arduino serial command function
 def arduino_open_door():
     print("Opening Door")
     ser = serial.Serial(port='COM3', baudrate=9600)
@@ -21,19 +22,23 @@ def arduino_open_door():
     ser.close()
 
 
+# Intro help text
 def help(bot, update):
     update.message.reply_text(help_text)
 
 
+# General reply
 def echo(bot, update):
     update.message.reply_text('Hi! I am your DoorBot. Please go to /help for further details')
 
 
+# FCommand to open the door
 def open_door(bot, update):
     arduino_open_door()
     update.message.reply_text("The door has been opened")
 
 
+# Command to send the most recent pic
 def send_most_recent_pic(bot, update):
     try:
         update.message.reply_text("Sending most recent picture...")
@@ -43,6 +48,7 @@ def send_most_recent_pic(bot, update):
         update.message.reply_text("Unable to send picture due to the error: " + str(e))
 
 
+# Command to send all the 5 pics taken
 def send_all_pics(bot, update):
     try:
         update.message.reply_text("Sending all pictures...")
@@ -53,6 +59,7 @@ def send_all_pics(bot, update):
         update.message.reply_text("Unable to send picture due to the error: " + str(e))
 
 
+# main method
 def main():
     # Create the Updater and pass it your bot's token.
     updater = Updater('TOKEN')

@@ -4,6 +4,7 @@ import way2sms
 import TelegramAPI
 import sqlite3 as sql
 
+# Make an object of way2sms web scrape and log in to the account with given credentails
 q = way2sms.Sms('PHONE_NUMBER', 'PASSWORD')
 
 
@@ -23,14 +24,18 @@ known_face_encodings = [
     akhilesh_face_encoding
 ]
 
+# A dictionary of Known Faces and who among them has the permission to allow unknown people inside.
+# The boolean value declares the permissio
 known_face_dict = {
-    "Animikh": False,
+    "Animikh": True,
     "Akhilesh": False
 }
 
+# Making a list of the keys from the dictionary
 known_face_names = [name for name in known_face_dict.keys()]
 face_names = []
 
+# Taking 5 pics together for redundancy, incase 1 picture does not come proeprly
 for pic in range(5):
     # Grab a single frame of video
     ret, frame = video_capture.read()
@@ -58,6 +63,9 @@ for pic in range(5):
 
         face_names.append(name)
 
+    ### UNCOMMENTING THE FOLLOWING CODE will show the boxes with recegnized names before saving the picture
+    ### KEEEPING THE CODE COMMMENTED would save the picture as received from the webcam without identification
+
     # # Display the results
     # for (top, right, bottom, left), name in zip(face_locations, face_names):
     #     # Scale back up face locations since the frame we detected in was scaled to 1/4 size
@@ -76,32 +84,40 @@ for pic in range(5):
 
         cv2.imwrite("./DataBase/test_pic_" + str(pic) + ".jpg", frame)
 
+# Printing the recognized names just for reference
 print(face_names)
 
 boolean_list = []
+# finding out if the detected face is in the list of allowed members or not and replacing that plce with Boolean values
 for name in face_names:
     if name in known_face_names:
         boolean_list.append(True)
     else:
         boolean_list.append(False)
 
+# Create a list with boolean values mentioning if the person is allowed to enter with an unknown person or not
 dict_bool_list = [known_face_dict.get(name, False) for name in face_names]
 
+# Create a variable "boolean" with value True if Known person with access rights is at the door, or else False
 if any(dict_bool_list):
     boolean = any(boolean_list)
 else:
     boolean = all(boolean_list)
 
+# If the list is empty (no face detected) make 'boolean' as False 
 if len(face_names) < 1:
-    print("Camera Blocked!")
+    print("Camera Blocked / or no face detected")
     boolean = False
 
+# Depnending on the value of "boolean" open the door or not
 if boolean:
-    q.send('ADMIN_PHONE_NUMBER', 'The following guests have been allowed inside: ' + ' '.join(set(face_names)))
     TelegramAPI.arduino_open_door()
+    q.send('9611933016', 'The following guests have been allowed inside: ' + ', '.join(set(face_names)))
 else:
-    q.send('ADMIN_PHONE_NUMBER', 'Unknown person wants to enter. Please Enquire telegram for further details')
-    pass
+    if len(face_names) < 1:
+        q.send('9611933016', 'Someone is at the door but face has not been detected. Please check telegram')
+    else:
+        q.send('9611933016', 'Unknown person wants to enter. Please Enquire telegram for further details')
 
 # Release handle to the webcam
 video_capture.release()
